@@ -8,16 +8,35 @@ fun main() {
     print("\n")
     println(purchase.toString() + "개를 구매했습니다.")
 
-
     val win = choose()
     println(win)
 }
 
 fun getValidPurchase(): Int {
-    println("구입금액을 입력해 주세요.")
-    val input = Console.readLine().toInt() / 1000
+    while (true) {
+        try {
+            println("구입금액을 입력해 주세요.")
+            val input = Console.readLine()
 
-    return input
+            return validPurchase(input)
+        } catch (e: IllegalArgumentException) {
+            println(e.message)
+        }
+    }
+}
+
+fun validPurchase(input: String): Int {
+    val purchase: Int
+    try {
+        purchase = input.toInt()
+    } catch (e: NumberFormatException) {
+        throw java.lang.IllegalArgumentException("[ERROR] 구입금액에 숫자만 입력해야 합니다.")
+    }
+
+    require(purchase != 0) { "[ERROR] 로또를 사셔야 합니다." }
+    require(purchase % 1000 == 0) { "[ERROR] 구입 금액은 1,000원 단위여야 합니다." }
+
+    return purchase / 1000
 }
 
 fun choose(): List<Int> {
