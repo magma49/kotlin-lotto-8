@@ -41,7 +41,6 @@ fun getValidWin(): List<Int> {
 
 fun getRandomWin(): List<Int> {
     val random = Randoms.pickUniqueNumbersInRange(1, 45, 7)
-    println(random)
     return random.slice(0..5).sorted() + random[6]
 }
 
