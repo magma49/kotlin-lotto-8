@@ -31,10 +31,13 @@ internal class ApplicationTest : NsTest() {
 
     @Test
     fun 기능_당첨번호_미입력() {
-        assertSimpleTest {
-            run("8000", "2")
-            assertThat(output()).contains("8개를 구매했습니다.")
-        }
+        assertRandomUniqueNumbersInRangeTest(
+            {
+                run("8000", "2")
+                assertThat(output()).contains("")
+            },
+            mutableListOf<Int>(41, 42, 8, 21, 23, 43, 3)
+        )
     }
 
     @Test
