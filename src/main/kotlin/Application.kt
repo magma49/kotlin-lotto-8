@@ -33,7 +33,7 @@ fun validPurchase(input: String): Int {
         throw java.lang.IllegalArgumentException("[ERROR] 구입금액에 숫자만 입력해야 합니다.")
     }
 
-    require(purchase != 0) { "[ERROR] 로또를 사셔야 합니다." }
+    require(purchase > 0) { "[ERROR] 로또를 사셔야 합니다." }
     require(purchase % 1000 == 0) { "[ERROR] 구입 금액은 1,000원 단위여야 합니다." }
 
     return purchase / 1000
