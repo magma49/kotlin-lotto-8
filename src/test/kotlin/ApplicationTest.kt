@@ -65,6 +65,18 @@ internal class ApplicationTest : NsTest() {
         }
     }
 
+    @Test
+    fun 예외_선택번호_잘못_입력() {
+        assertSimpleTest {
+            run("8000", "3", "1", "1,2,3,4,5,6", "7")
+            assertThat(output()).contains(
+                "[ERROR] 1 또는 2만 입력해야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6, 7]"
+            )
+        }
+    }
+
     override fun runMain() {
         main()
     }
