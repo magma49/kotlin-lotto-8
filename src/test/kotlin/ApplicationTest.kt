@@ -11,17 +11,6 @@ import org.junit.jupiter.api.Test
 internal class ApplicationTest : NsTest() {
 
     @Test
-    fun 기능1() {
-        assertRandomUniqueNumbersInRangeTest(
-            {
-                run("")
-                assertThat(output()).contains("")
-            },
-            mutableListOf<Int>()
-        )
-    }
-
-    @Test
     fun 기능_당첨번호_입력() {
         assertSimpleTest {
             run("8000", "1", "1,2,3,4,5,6", "7")
@@ -41,10 +30,38 @@ internal class ApplicationTest : NsTest() {
     }
 
     @Test
-    fun 예외() {
+    fun 예외_구입금액에_문자_입력() {
         assertSimpleTest {
-            assertThatThrownBy { runException("") }
-                .isInstanceOf(IllegalArgumentException::class.java)
+            run("a", "8000", "1", "1,2,3,4,5,6", "7")
+            assertThat(output()).contains(
+                "[ERROR] 구입금액에 숫자만 입력해야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6, 7]"
+            )
+        }
+    }
+
+    @Test
+    fun 예외_구입금액에_0_입력() {
+        assertSimpleTest {
+            run("0", "8000", "1", "1,2,3,4,5,6", "7")
+            assertThat(output()).contains(
+                "[ERROR] 로또를 사셔야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6, 7]"
+            )
+        }
+    }
+
+    @Test
+    fun 예외_구입금액에_100단위_입력() {
+        assertSimpleTest {
+            run("800", "8000", "1", "1,2,3,4,5,6", "7")
+            assertThat(output()).contains(
+                "[ERROR] 구입 금액은 1,000원 단위여야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6, 7]"
+            )
         }
     }
 
