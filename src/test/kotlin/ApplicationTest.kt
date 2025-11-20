@@ -22,10 +22,18 @@ internal class ApplicationTest : NsTest() {
     }
 
     @Test
-    fun 기능2() {
+    fun 기능_당첨번호_입력() {
         assertSimpleTest {
-            run("")
-            assertThat(output()).contains("")
+            run("8000", "1", "1,2,3,4,5,6", "7")
+            assertThat(output()).contains("8개를 구매했습니다.", "[1, 2, 3, 4, 5, 6, 7]")
+        }
+    }
+
+    @Test
+    fun 기능_당첨번호_미입력() {
+        assertSimpleTest {
+            run("8000", "2")
+            assertThat(output()).contains("8개를 구매했습니다.")
         }
     }
 
