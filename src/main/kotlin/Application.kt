@@ -10,11 +10,14 @@ fun main() {
 
     val lottos = makeLotto(purchase)
     val (win, bonus) = choose()
-    win.print()
-    println(bonus)
+
+    val winning = IntArray(5)
     for (lotto in lottos) {
-        println(lotto.match(win, bonus))
+        val count = lotto.match(win, bonus)
+        if (count > 2)
+            ++winning[count - 3]
     }
+    printWinning(winning, purchase)
 }
 
 fun getValidPurchase(): Int {
@@ -35,10 +38,8 @@ fun validPurchase(): Int {
     } catch (e: NumberFormatException) {
         throw java.lang.IllegalArgumentException("[ERROR] 구입금액에 숫자만 입력해야 합니다.")
     }
-
     require(purchase > 0) { "[ERROR] 로또를 사셔야 합니다." }
     require(purchase % 1000 == 0) { "[ERROR] 구입 금액은 1,000원 단위여야 합니다." }
-
     return purchase / 1000
 }
 
@@ -132,4 +133,33 @@ fun makeLotto(purchase: Int): Array<Lotto> {
     lottos.forEach { it.print() }
     print("\n")
     return lottos
+}
+
+enum class Rank(val index: Int, val prize: Int, val print: String) {
+    FIFTH(0, 5, "3개 일치"),
+    FOURTH(1, 50, "4개 일치"),
+    THIRD(2, 1_500, "5개 일치"),
+    SECOND(3, 30_000, "5개 일치, 보너스 볼 일치"),
+    FIRST(4, 2_000_000, "6개 일치");
+
+    fun getPrint(count: Int): String {
+        return "$print (%,d원) - ${count}개".format(prize * 1000)
+    }
+
+    companion object {
+        fun getPrize(index: Int, count: Int): Int {
+            val rank = entries.find { it.index == index } ?: FIFTH
+            println(rank.getPrint(count))
+            return rank.prize * count
+        }
+    }
+}
+
+fun printWinning(winning: IntArray, purchase: Int) {
+    println("당첨 통계")
+    var prize = 0
+    for ((index, count) in winning.withIndex()) {
+        prize += Rank.getPrize(index, count)
+    }
+    println("총 수익률은 %.1f%%입니다.".format(prize.toDouble() * 100 / purchase))
 }
