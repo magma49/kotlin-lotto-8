@@ -68,10 +68,26 @@ fun validChoose(): Int {
 }
 
 fun getValidWin(): List<Int> {
-    println("당첨 번호를 입력해 주세요.")
-    val input: List<Int> = Console.readLine().split(",").map { it.toInt() }
+    while (true) {
+        try {
+            return validWin()
+        } catch (e: IllegalArgumentException) {
+            println(e.message)
+        }
+    }
+}
 
-    return input
+fun validWin(): List<Int> {
+    val win: List<Int>
+    try {
+        println("당첨 번호를 입력해 주세요.")
+        win = Console.readLine().split(",").map { it.toInt() }
+    } catch (e: NumberFormatException) {
+        throw java.lang.IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
+    }
+    require(win.all { it in 1..45 }) { "[ERROR] 1 ~ 45의 숫자만 입력해야 합니다." }
+    require(win.distinct().size == win.size) { "[ERROR] 서로 다른 숫자만 입력해야 합니다." }
+    return win
 }
 
 fun getRandomWin(): List<Int> {
