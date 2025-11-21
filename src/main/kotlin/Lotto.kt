@@ -1,6 +1,9 @@
 package lotto
 
-class Lotto(private val numbers: List<Int>) {
+class Lotto(numbers: List<Int>) {
+
+    private val numbers = numbers.sorted()
+
     init {
         require(numbers.size == 6) {
             "[ERROR] 6개의 숫자만 입력해야 합니다."
