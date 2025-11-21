@@ -117,6 +117,30 @@ internal class ApplicationTest : NsTest() {
         }
     }
 
+    @Test
+    fun 예외_보너스번호_잘못된_값_입력() {
+        assertSimpleTest {
+            run("8000", "1", "1,1,3,4,5,6", LOTTO, "a", "7")
+            assertThat(output()).contains(
+                "[ERROR] 숫자만 입력해야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6]"
+            )
+        }
+    }
+
+    @Test
+    fun 예외_보너스번호_당첨번호와_같은_값_입력() {
+        assertSimpleTest {
+            run("8000", "1", "1,1,3,4,5,6", LOTTO, "4", "7")
+            assertThat(output()).contains(
+                "[ERROR] 보너스 번호는 당첨번호들과 달라야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6]"
+            )
+        }
+    }
+
     override fun runMain() {
         main()
     }
