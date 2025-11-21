@@ -8,8 +8,9 @@ fun main() {
     print("\n")
     println(purchase.toString() + "개를 구매했습니다.")
 
-    val win = choose()
-    println(win)
+    val (win, bonus) = choose()
+    win.print()
+    println(bonus)
 }
 
 fun getValidPurchase(): Int {
@@ -37,7 +38,7 @@ fun validPurchase(): Int {
     return purchase / 1000
 }
 
-fun choose(): List<Int> {
+fun choose(): Pair<Lotto, Int> {
     while (true) {
         try {
             return getValidChoose()
@@ -47,9 +48,9 @@ fun choose(): List<Int> {
     }
 }
 
-fun getValidChoose(): List<Int> {
+fun getValidChoose(): Pair<Lotto, Int> {
     if (validChoose() == 1) {
-        return getValidWin() + getValidBonus()
+        return getValidWin() to getValidBonus()
     } else {
         return getRandomWin()
     }
@@ -67,10 +68,10 @@ fun validChoose(): Int {
     return choice
 }
 
-fun getValidWin(): List<Int> {
+fun getValidWin(): Lotto {
     while (true) {
         try {
-            return validWin()
+            return Lotto(validWin())
         } catch (e: IllegalArgumentException) {
             println(e.message)
         }
@@ -85,14 +86,12 @@ fun validWin(): List<Int> {
     } catch (e: NumberFormatException) {
         throw java.lang.IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
     }
-    require(win.all { it in 1..45 }) { "[ERROR] 1 ~ 45의 숫자만 입력해야 합니다." }
-    require(win.distinct().size == win.size) { "[ERROR] 서로 다른 숫자만 입력해야 합니다." }
     return win
 }
 
-fun getRandomWin(): List<Int> {
+fun getRandomWin(): Pair<Lotto, Int> {
     val random = Randoms.pickUniqueNumbersInRange(1, 45, 7)
-    return random.slice(0..5).sorted() + random[6]
+    return Lotto(random.slice(0..5)) to random[6]
 }
 
 fun getValidBonus(): Int {
