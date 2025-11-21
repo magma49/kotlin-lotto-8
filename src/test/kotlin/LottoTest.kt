@@ -1,18 +1,22 @@
 package lotto
 
-import camp.nextstep.edu.missionutils.test.Assertions.assertRandomUniqueNumbersInRangeTest
+import camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
 class LottoTest {
     @Test
     fun 기능() {
-        assertRandomUniqueNumbersInRangeTest(
-            {
-                Lotto(listOf())
-            },
-            mutableListOf<Int>()
-        )
+        assertSimpleTest {
+            Lotto(listOf())
+        }
+    }
+
+    @Test
+    fun 기능_번호출력() {
+        assertSimpleTest {
+            Lotto(listOf(1, 2, 3, 4, 5, 6)).print()
+        }
     }
 
     @Test
