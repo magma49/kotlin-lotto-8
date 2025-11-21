@@ -50,7 +50,8 @@ fun choose(): Pair<Lotto, Int> {
 
 fun getValidChoose(): Pair<Lotto, Int> {
     if (validChoose() == 1) {
-        return getValidWin() to getValidBonus()
+        val win: Lotto = getValidWin()
+        return win to getValidBonus(win)
     } else {
         return getRandomWin()
     }
@@ -94,9 +95,25 @@ fun getRandomWin(): Pair<Lotto, Int> {
     return Lotto(random.slice(0..5)) to random[6]
 }
 
-fun getValidBonus(): Int {
-    println("보너스 번호를 입력해 주세요.");
-    val input = Console.readLine().toInt()
+fun getValidBonus(win: Lotto): Int {
+    while (true) {
+        try {
+            return validBonus(win)
+        } catch (e: IllegalArgumentException) {
+            println(e.message)
+        }
+    }
 
-    return input
+}
+
+fun validBonus(win: Lotto): Int {
+    val bonus: Int
+    try {
+        println("보너스 번호를 입력해 주세요.")
+        bonus = Console.readLine().toInt()
+    } catch (e: NumberFormatException) {
+        throw java.lang.IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
+    }
+    require(!win.checkBonus(bonus)) { "[ERROR] 보너스 번호는 당첨번호들과 달라야 합니다." }
+    return bonus
 }
