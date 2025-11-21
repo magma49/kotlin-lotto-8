@@ -8,6 +8,7 @@ fun main() {
     print("\n")
     println(purchase.toString() + "개를 구매했습니다.")
 
+    val lottos = makeLotto(purchase)
     val (win, bonus) = choose()
     win.print()
     println(bonus)
@@ -62,6 +63,7 @@ fun validChoose(): Int {
     try {
         println("당첨번호를 입력하시겠습니까? 입력을 하시려면 1, 입력을 안 하시려면 2를 입력해 주세요.")
         choice = Console.readLine().toInt()
+        print("\n")
     } catch (e: NumberFormatException) {
         throw java.lang.IllegalArgumentException("[ERROR] 1 또는 2만 입력해야 합니다.")
     }
@@ -84,6 +86,7 @@ fun validWin(): List<Int> {
     try {
         println("당첨 번호를 입력해 주세요.")
         win = Console.readLine().split(",").map { it.toInt() }
+        print("\n")
     } catch (e: NumberFormatException) {
         throw java.lang.IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
     }
@@ -111,9 +114,19 @@ fun validBonus(win: Lotto): Int {
     try {
         println("보너스 번호를 입력해 주세요.")
         bonus = Console.readLine().toInt()
+        print("\n")
     } catch (e: NumberFormatException) {
         throw java.lang.IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
     }
     require(!win.checkBonus(bonus)) { "[ERROR] 보너스 번호는 당첨번호들과 달라야 합니다." }
     return bonus
+}
+
+fun makeLotto(purchase: Int): Array<Lotto> {
+    val lottos = Array(purchase) { i ->
+        Lotto(Randoms.pickUniqueNumbersInRange(1, 45, 6))
+    }
+    lottos.forEach { it.print() }
+    print("\n")
+    return lottos
 }
