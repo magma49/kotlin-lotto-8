@@ -16,6 +16,13 @@ class LottoTest {
     }
 
     @Test
+    fun 예외_당첨번호_잘못된_개수_입력() {
+        assertThatThrownBy { Lotto(listOf(1, 2, 3, 4, 5)) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContaining("[ERROR] 6개의 숫자만 입력해야 합니다.")
+    }
+
+    @Test
     fun 예외_당첨번호_범위밖_입력() {
         assertThatThrownBy { Lotto(listOf(1, 0, 3, 4, 5, 6)) }
             .isInstanceOf(IllegalArgumentException::class.java)
