@@ -20,11 +20,15 @@ class Lotto(numbers: List<Int>) {
         println(numbers)
     }
 
-    fun checkBonus(bonus: Int): Boolean { //있으면 true, 없으면 false
-        return numbers.find { it == bonus } != null
+    fun check(number: Int): Boolean { //있으면 true, 없으면 false
+        return numbers.find { it == number } != null
     }
 
-    fun match(win: Lotto, bonus: Int) {
-
+    fun match(win: Lotto, bonus: Int): Int {
+        var count = numbers.count { win.check(it) }
+        if (count == 6) ++count
+        if (count == 5 && check(bonus))
+            ++count
+        return count
     }
 }

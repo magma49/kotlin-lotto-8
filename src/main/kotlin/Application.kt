@@ -12,6 +12,9 @@ fun main() {
     val (win, bonus) = choose()
     win.print()
     println(bonus)
+    for (lotto in lottos) {
+        println(lotto.match(win, bonus))
+    }
 }
 
 fun getValidPurchase(): Int {
@@ -118,7 +121,7 @@ fun validBonus(win: Lotto): Int {
     } catch (e: NumberFormatException) {
         throw java.lang.IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
     }
-    require(!win.checkBonus(bonus)) { "[ERROR] 보너스 번호는 당첨번호들과 달라야 합니다." }
+    require(!win.check(bonus)) { "[ERROR] 보너스 번호는 당첨번호들과 달라야 합니다." }
     return bonus
 }
 
