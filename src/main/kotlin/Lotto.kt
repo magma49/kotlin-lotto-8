@@ -20,6 +20,10 @@ class Lotto(numbers: List<Int>) {
         println(numbers)
     }
 
+    fun checkBonus(bonus: Int): Boolean {
+        return numbers.find { it == bonus } == null
+    }
+
     fun match(win: Lotto, bonus: Int) {
 
     }
