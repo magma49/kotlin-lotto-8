@@ -13,6 +13,10 @@ class Lotto(private val numbers: List<Int>) {
         }
     }
 
+    fun print() {
+        println(numbers)
+    }
+
     fun match(win: Lotto, bonus: Int) {
 
     }
