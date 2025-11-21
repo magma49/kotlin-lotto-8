@@ -15,7 +15,7 @@ class LottoTest {
     @Test
     fun 기능_번호출력() {
         assertSimpleTest {
-            Lotto(listOf(1, 2, 3, 4, 5, 6)).print()
+            Lotto(listOf(5, 6, 3, 4, 2, 1)).print()
         }
     }
 
