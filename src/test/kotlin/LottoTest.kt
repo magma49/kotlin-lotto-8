@@ -5,17 +5,18 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
 class LottoTest {
-    @Test
-    fun 기능() {
-        assertSimpleTest {
-            Lotto(listOf())
-        }
-    }
 
     @Test
     fun 기능_번호출력() {
         assertSimpleTest {
             Lotto(listOf(5, 6, 3, 4, 2, 1)).print()
+        }
+    }
+
+    @Test
+    fun 기능_보너스번호_포함여부() {
+        assertSimpleTest {
+            println(Lotto(listOf(1, 2, 3, 4, 5, 6)).checkBonus(4))
         }
     }
 
