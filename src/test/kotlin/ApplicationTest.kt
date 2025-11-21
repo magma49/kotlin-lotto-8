@@ -77,6 +77,42 @@ internal class ApplicationTest : NsTest() {
         }
     }
 
+    @Test
+    fun 예외_당첨번호_문자_입력() {
+        assertSimpleTest {
+            run("8000", "1", "1,a,3,4,5,6", "1,2,3,4,5,6", "7")
+            assertThat(output()).contains(
+                "[ERROR] 숫자만 입력해야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6, 7]"
+            )
+        }
+    }
+
+    @Test
+    fun 예외_당첨번호_범위밖_입력() {
+        assertSimpleTest {
+            run("8000", "1", "1,0,3,4,5,6", "1,2,3,4,5,6", "7")
+            assertThat(output()).contains(
+                "[ERROR] 1 ~ 45의 숫자만 입력해야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6, 7]"
+            )
+        }
+    }
+
+    @Test
+    fun 예외_당첨번호_중복_입력() {
+        assertSimpleTest {
+            run("8000", "1", "1,1,3,4,5,6", "1,2,3,4,5,6", "7")
+            assertThat(output()).contains(
+                "[ERROR] 서로 다른 숫자만 입력해야 합니다.",
+                "8개를 구매했습니다.",
+                "[1, 2, 3, 4, 5, 6, 7]"
+            )
+        }
+    }
+
     override fun runMain() {
         main()
     }
