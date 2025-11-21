@@ -20,8 +20,8 @@ class Lotto(numbers: List<Int>) {
         println(numbers)
     }
 
-    fun checkBonus(bonus: Int): Boolean {
-        return numbers.find { it == bonus } == null
+    fun checkBonus(bonus: Int): Boolean { //있으면 true, 없으면 false
+        return numbers.find { it == bonus } != null
     }
 
     fun match(win: Lotto, bonus: Int) {
