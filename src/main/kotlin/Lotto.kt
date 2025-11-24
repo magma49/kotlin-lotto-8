@@ -25,7 +25,7 @@ class Lotto(numbers: List<Int>) {
     }
 
     fun match(win: Lotto, bonus: Int): Int {
-        var count = numbers.count { win.check(it) }
+        var count: Int = numbers.count { win.check(it) }
         if (count == 6) ++count
         if (count == 5 && check(bonus))
             ++count

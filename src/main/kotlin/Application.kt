@@ -4,16 +4,16 @@ import camp.nextstep.edu.missionutils.Console
 import camp.nextstep.edu.missionutils.Randoms
 
 fun main() {
-    val purchase = getValidPurchase()
+    val purchase: Int = getValidPurchase()
     print("\n")
     println(purchase.toString() + "개를 구매했습니다.")
 
-    val lottos = makeLotto(purchase)
-    val (win, bonus) = choose()
+    val lottos: Array<Lotto> = makeLotto(purchase)
+    val (win: Lotto, bonus: Int) = choose()
 
     val winning = IntArray(5)
     for (lotto in lottos) {
-        val count = lotto.match(win, bonus)
+        val count: Int = lotto.match(win, bonus)
         if (count > 2)
             ++winning[count - 3]
     }
@@ -36,7 +36,7 @@ fun validPurchase(): Int {
         println("구입금액을 입력해 주세요.")
         purchase = Console.readLine().toInt()
     } catch (e: NumberFormatException) {
-        throw java.lang.IllegalArgumentException("[ERROR] 구입금액에 숫자만 입력해야 합니다.")
+        throw IllegalArgumentException("[ERROR] 구입금액에 숫자만 입력해야 합니다.")
     }
     require(purchase > 0) { "[ERROR] 로또를 사셔야 합니다." }
     require(purchase % 1000 == 0) { "[ERROR] 구입 금액은 1,000원 단위여야 합니다." }
@@ -69,7 +69,7 @@ fun validChoose(): Int {
         choice = Console.readLine().toInt()
         print("\n")
     } catch (e: NumberFormatException) {
-        throw java.lang.IllegalArgumentException("[ERROR] 1 또는 2만 입력해야 합니다.")
+        throw IllegalArgumentException("[ERROR] 1 또는 2만 입력해야 합니다.")
     }
     require(choice in 1..2) { "[ERROR] 1 또는 2만 입력해야 합니다." }
     return choice
@@ -92,13 +92,13 @@ fun validWin(): List<Int> {
         win = Console.readLine().split(",").map { it.toInt() }
         print("\n")
     } catch (e: NumberFormatException) {
-        throw java.lang.IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
+        throw IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
     }
     return win
 }
 
 fun getRandomWin(): Pair<Lotto, Int> {
-    val random = Randoms.pickUniqueNumbersInRange(1, 45, 7)
+    val random: List<Int> = Randoms.pickUniqueNumbersInRange(1, 45, 7)
     return Lotto(random.slice(0..5)) to random[6]
 }
 
@@ -120,14 +120,14 @@ fun validBonus(win: Lotto): Int {
         bonus = Console.readLine().toInt()
         print("\n")
     } catch (e: NumberFormatException) {
-        throw java.lang.IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
+        throw IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
     }
     require(!win.check(bonus)) { "[ERROR] 보너스 번호는 당첨번호들과 달라야 합니다." }
     return bonus
 }
 
 fun makeLotto(purchase: Int): Array<Lotto> {
-    val lottos = Array(purchase) { i ->
+    val lottos: Array<Lotto> = Array(purchase) { i ->
         Lotto(Randoms.pickUniqueNumbersInRange(1, 45, 6))
     }
     lottos.forEach { it.print() }
@@ -148,7 +148,7 @@ enum class Rank(val index: Int, val prize: Int, val print: String) {
 
     companion object {
         fun getPrize(index: Int, count: Int): Int {
-            val rank = entries.find { it.index == index } ?: FIFTH
+            val rank: Rank = entries.find { it.index == index } ?: FIFTH
             println(rank.getPrint(count))
             return rank.prize * count
         }
